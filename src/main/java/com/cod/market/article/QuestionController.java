@@ -1,12 +1,11 @@
 package com.cod.market.article;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,33 +31,41 @@ public class QuestionController {
     }
 
     @GetMapping("/article/create")
-    public String showCreateForm() {
-        return "/article/create";
+    public String showCreateForm(Model model) {
+        model.addAttribute("questionForm", new QuestionForm());
+        return "article/create";
     }
 
     @PostMapping("/article/save")
-    public String saveArticle(@RequestParam("subject") String subject,
-                              @RequestParam("content") String content) {
-        questionService.saveQuestion(subject, content);
+    public String saveArticle(@Valid @ModelAttribute QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "article/create";
+        }
+        questionService.saveQuestion(questionForm.getSubject(), questionForm.getContent());
         return "redirect:/article"; // 저장 후 목록 페이지로 리다이렉트
     }
 
     @GetMapping("/article/edit/{id}")
     public String showEditForm(@PathVariable("id") Integer id, Model model) {
         Question question = questionService.findById(id);
-        model.addAttribute("question", question);
-        return "article/edit";
+        QuestionForm questionForm = new QuestionForm();
+        questionForm.setId(question.getId());
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        model.addAttribute("questionForm", questionForm);
+        return "article/create";
     }
 
-    @PostMapping("/article/edit")
-    public String updateArticle(@RequestParam("id") Integer id,
-                                @RequestParam("subject") String subject,
-                                @RequestParam("content") String content) {
-        questionService.updateQuestion(id, subject, content);
+    @PostMapping("/article/edit/{id}")
+    public String updateArticle(@PathVariable("id") Integer id, @Valid @ModelAttribute QuestionForm questionForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "article/create";
+        }
+        questionService.updateQuestion(id, questionForm.getSubject(), questionForm.getContent());
         return "redirect:/article/detail/" + id;
     }
 
-    @GetMapping("/article/delete")
+    @PostMapping("/article/delete")
     public String deleteArticle(@RequestParam("id") Integer id) {
         questionService.deleteQuestion(id);
         return "redirect:/article";

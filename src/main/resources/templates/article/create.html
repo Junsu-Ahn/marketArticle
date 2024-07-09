@@ -3,25 +3,25 @@
       layout:decorate="~{layout/layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>질문 등록</title>
+    <title th:text="${questionForm.id != null} ? '질문 수정' : '질문 등록'">질문 등록</title>
 </head>
 <body>
 <div layout:fragment="content" class="container mt-[100px]">
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
             <div class="card">
-                <div class="card-header">질문 등록</div>
+                <div class="card-header" th:text="${questionForm.id != null} ? '질문 수정' : '질문 등록'">질문 등록</div>
                 <div class="card-body">
-                    <form th:action="@{/article/save}" method="post">
+                    <form th:action="${questionForm.id != null} ? @{'/article/edit/' + ${questionForm.id}} : @{/article/save}" th:object="${questionForm}" method="post">
                         <div class="mb-3">
                             <label for="subject" class="form-label">제목</label>
-                            <input type="text" id="subject" name="subject" class="form-control" required>
+                            <input type="text" id="subject" name="subject" class="form-control" th:field="*{subject}" required>
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">내용</label>
-                            <textarea id="content" name="content" class="form-control" rows="5" required></textarea>
+                            <textarea id="content" name="content" class="form-control" th:field="*{content}" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">등록하기</button>
+                        <button type="submit" class="btn btn-primary" th:text="${questionForm.id != null} ? '수정하기' : '등록하기'">등록하기</button>
                     </form>
                 </div>
             </div>
