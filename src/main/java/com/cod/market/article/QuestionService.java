@@ -28,6 +28,19 @@ public class QuestionService {
 
         return questionRepository.save(question);
     }
+
+    public void updateQuestion(Integer id, String subject, String content) {
+        Question question = questionRepository.findById(id).orElse(null);
+        if (question != null) {
+            question.setSubject(subject);
+            question.setContent(content);
+            questionRepository.save(question);
+        }
+    }
+
+    public void deleteQuestion(Integer id) {
+        questionRepository.deleteById(id);
+    }
 }
 
 

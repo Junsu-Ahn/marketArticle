@@ -42,4 +42,26 @@ public class QuestionController {
         questionService.saveQuestion(subject, content);
         return "redirect:/article"; // 저장 후 목록 페이지로 리다이렉트
     }
+
+    @GetMapping("/article/edit/{id}")
+    public String showEditForm(@PathVariable("id") Integer id, Model model) {
+        Question question = questionService.findById(id);
+        model.addAttribute("question", question);
+        return "article/edit";
+    }
+
+    @PostMapping("/article/edit")
+    public String updateArticle(@RequestParam("id") Integer id,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("content") String content) {
+        questionService.updateQuestion(id, subject, content);
+        return "redirect:/article/detail/" + id;
+    }
+
+    @GetMapping("/article/delete")
+    public String deleteArticle(@RequestParam("id") Integer id) {
+        questionService.deleteQuestion(id);
+        return "redirect:/article";
+    }
+
 }

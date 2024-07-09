@@ -14,6 +14,10 @@
                     <p class="card-text" th:text="${question.createDate}">작성일시가 표시됩니다.</p>
                     <h5 class="card-title">내용</h5>
                     <p class="card-text" th:text="${question.content}">질문의 내용이 표시됩니다.</p>
+                    <div class="btn-group">
+                        <a th:href="@{|/article/edit/${question.id}|}" class="btn btn-info">수정</a>
+                        <a th:href="@{|/article/delete/${question.id}|}" class="btn btn-danger">삭제</a>
+                    </div>
                     <a th:href="@{/article}" class="btn btn-primary">목록으로 돌아가기</a>
                 </div>
             </div>

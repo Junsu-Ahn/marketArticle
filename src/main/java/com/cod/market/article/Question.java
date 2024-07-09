@@ -3,6 +3,7 @@ package com.cod.market.article;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createDate;
 
 }
