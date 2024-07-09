@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>질문 등록</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-[100px]">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <div class="card">
+                <div class="card-header">질문 등록</div>
+                <div class="card-body">
+                    <form th:action="@{/article/save}" method="post">
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">제목</label>
+                            <input type="text" id="subject" name="subject" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">내용</label>
+                            <textarea id="content" name="content" class="form-control" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">등록하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

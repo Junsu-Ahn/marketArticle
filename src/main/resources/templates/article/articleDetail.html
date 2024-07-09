@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
+<head>
+    <title>질문 상세</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-[100px]" style="max-width: 2400px;">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <div class="card">
+                <div class="card-header" th:text="${question.subject}">질문 제목</div>
+                <div class="card-body">
+                    <h5 class="card-title">작성일시</h5>
+                    <p class="card-text" th:text="${question.createDate}">작성일시가 표시됩니다.</p>
+                    <h5 class="card-title">내용</h5>
+                    <p class="card-text" th:text="${question.content}">질문의 내용이 표시됩니다.</p>
+                    <a th:href="@{/article}" class="btn btn-primary">목록으로 돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
